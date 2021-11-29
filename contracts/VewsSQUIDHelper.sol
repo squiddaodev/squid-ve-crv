@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "./interfaces/IWsSQUID.sol";
 import "./interfaces/IVotingEscrow.sol";
 
@@ -32,10 +33,10 @@ contract VewsSQUIDHelper is ReentrancyGuard {
     }
 
     function withdraw() external nonReentrant {
+        (int128 lockedAmount, ) = vewsSQUID.locked(msg.sender);
         vewsSQUID.withdraw_for(msg.sender);
-        uint256 sSQUIDAmount = wsSQUID.unwrapTosSQUID(
-            wsSQUID.balanceOf(address(this))
-        );
+        uint256 wsSQUIDAmount = SafeCast.toUint256(int256(lockedAmount));
+        uint256 sSQUIDAmount = wsSQUID.unwrapTosSQUID(wsSQUIDAmount);
         sSQUID.transfer(msg.sender, sSQUIDAmount);
     }
 
