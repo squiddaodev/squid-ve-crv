@@ -185,12 +185,13 @@ def apply_smart_wallet_checker():
     self.smart_wallet_checker = self.future_smart_wallet_checker
 
 @external
-def set_helper(addrs: address):
+def set_helper(_addr: address):
     """
     @notice Set helper contract address that allows to create_lock on behalf of the user
     """
     assert msg.sender == self.admin
-    self.helper = addrs
+    self.helper = _addr
+    log SetHelper(_addr)
 
 @internal
 def assert_not_contract(addr: address):
