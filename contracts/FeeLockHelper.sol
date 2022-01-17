@@ -49,7 +49,7 @@ interface wrappedsSquid {
     function wrapFromsSQUID(uint256 _amount) external returns (uint256);
 }
 
-contract FeeClaimHelper {
+contract FeeLockHelper {
     FeeDistributor public constant wsSquidFeeDistributor =
         FeeDistributor(0xF3bC8fabcFC368B52ec18016d6cA8ab8967c550A);
     FeeDistributor public constant wethFeeDistributor =
